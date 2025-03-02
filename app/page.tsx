@@ -1,8 +1,12 @@
 
 export default function Home() {
   return (
-    <div className="">
-      <h1 className=" text-xl3 underline ">Home</h1>
+    <div className="flex h-screen max-h-screen ">
+      <section className=" remove-scrollbar container my-auto ">
+        <div className=" sub-container max-w-[496px] ">
+
+        </div>
+      </section>
     </div>
   );
 }
