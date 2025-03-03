@@ -62,6 +62,9 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             return (
                 <FormControl>
                     <PhoneInput
+                        country="ID"
+                        international
+                        withCountryCallingCode
                         placeholder={placeholder}
                         value={field.value as E164Number | undefined}
                         onChange={field.onChange}
