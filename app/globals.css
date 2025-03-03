@@ -77,6 +77,19 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+  .form-label-white label {
+    color: white;
+  }
+  .react-phone-number-input__icon {
+    width: 20px; /* Sesuaikan ukuran bendera */
+    height: 15px; /* Sesuaikan ukuran bendera */
+    border: 1px solid #ccc; /* Opsional: tambahkan border untuk estetika */
+  }
+  /* styles/globals.css atau file CSS Anda */
+.input-phone .react-phone-number-input__icon {
+  width: 20px; /* Sesuaikan ukuran bendera */
+  height: 15px; /* Sesuaikan ukuran bendera */
+  }
 }
 
 @layer utilities {

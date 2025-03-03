@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
   FormControl,
-  FormDescription,
+//   FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -12,7 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form";
 import { FormFieldType } from "./forms/PatientForms";
 import Image from "next/image";
-import PhoneInput from "react-phone-number-input/input";
+import PhoneInput from "react-phone-number-input/input"
+import {E164Number} from "libphonenumber-js/core"
 import { Select, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 
 interface CustomProps {
@@ -60,14 +62,12 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             return (
                 <FormControl>
                     <PhoneInput
-                        defaultCountry="US"
                         placeholder={placeholder}
-                        international
-                        withCountryCallingCode
                         value={field.value as E164Number | undefined}
                         onChange={field.onChange}
-                        className="input-phone w-full rounded-md border border-dark-500 bg-dark-400 p-2"
+                        className=" input-phone w-full rounded-md border border-dark-500 bg-dark-400 p-2"
                         disabled={disabled}
+                        
                     />
                 </FormControl>
             );
@@ -100,7 +100,7 @@ const CustomFormFields = (props: CustomProps) => {
             render={({ field }) => (
                 <FormItem className="flex-1">
                     {fieldType !== FormFieldType.CHECKBOX && label && (
-                        <FormLabel>{label}</FormLabel>
+                        <FormLabel className="form-label-white">{label}</FormLabel>
                     )}
 
                     <RenderField field={field} props={props} />

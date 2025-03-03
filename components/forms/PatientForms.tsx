@@ -3,10 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormFields from "../CustomFormFields";
+import SubmitButton from "../SubmitButton";
+import { useState } from "react";
+import { UserFormValidation } from "@/lib/validation";
+import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/patient.actions";
+
 
 export enum FormFieldType {
     INPUT = "input",
@@ -18,32 +22,30 @@ export enum FormFieldType {
     SKELETON = "skeleton",
 }
 
-// Extended form schema
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-    email: z.string().email({
-        message: "Please enter a valid email address.",
-    }),
-    phone: z.string().min(10, {
-        message: "Phone number must be at least 10 digits.",
-    }),
-});
+
 
 const PatientForm = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState (false);
+    const form = useForm<z.infer<typeof UserFormValidation>>({
+        resolver: zodResolver(UserFormValidation),
         defaultValues: {
-            username: "",
+            name: "",
             email: "",
             phone: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        // Add API call or further processing here
+    async function onSubmit({name, email, phone}: z.infer<typeof UserFormValidation>) {
+        setIsLoading(true);
+        
+        try{
+            const userData = { name, email, phone};
+            const user = await createUser(userData);
+            if (user) router.push(`/patient/${user.$id}/register`)
+        }catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -58,7 +60,7 @@ const PatientForm = () => {
                 <CustomFormFields
                     fieldType={FormFieldType.INPUT}
                     control={form.control}
-                    name="username"
+                    name="name"
                     label="Full name"
                     placeholder="John Doe"
                     iconSrc="/assets/icons/user.svg"
@@ -87,9 +89,7 @@ const PatientForm = () => {
                     iconAlt="phone"
                 />
 
-                <Button className="bg-green-500" type="submit">
-                    Submit
-                </Button>
+                <SubmitButton isLoading = {isLoading}>Get Started</SubmitButton>
             </form>
         </Form>
     );
